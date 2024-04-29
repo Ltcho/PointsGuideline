@@ -10,21 +10,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Setup Git
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+
+    - name: Pull latest changes
+      run: git pull origin main
+      # Replace 'main' with your branch name if different
+
     - name: Grant execute permission to postBuild
       run: chmod +x binder/postBuild
-      
-      - name: Pull latest changes
-  run: git pull origin main
 
-- name: Commit and push if changes
-  run: |
-    git add .
-    git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update" && git push)
-
-    - name: Commit and push if changed
+    - name: Commit and push if changes
       run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
         git add binder/postBuild
-        git commit -m 'Set executable permissions on postBuild' || echo "No changes to commit"
-        git push
+        git diff --quiet && git diff --staged --quiet || (git commit -m 'Set executable permissions on postBuild' && git push)
+      # This step checks for changes and commits them if there are any, otherwise does nothing
