@@ -1,3 +1,2 @@
 #!/bin/bash
-# This script runs after building the repo but before launching it
 jupyter serverextension enable voila --sys-prefix
