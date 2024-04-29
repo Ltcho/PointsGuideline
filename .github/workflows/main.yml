@@ -2,6 +2,9 @@ name: Set Executable Permissions
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   set-permissions:
     runs-on: ubuntu-latest
@@ -15,10 +18,6 @@ jobs:
         git config --global user.name "GitHub Action"
         git config --global user.email "action@github.com"
 
-    - name: Pull latest changes
-      run: git pull origin main
-      # Replace 'main' with your branch name if different
-
     - name: Grant execute permission to postBuild
       run: chmod +x binder/postBuild
 
@@ -26,4 +25,3 @@ jobs:
       run: |
         git add binder/postBuild
         git diff --quiet && git diff --staged --quiet || (git commit -m 'Set executable permissions on postBuild' && git push)
-      # This step checks for changes and commits them if there are any, otherwise does nothing
