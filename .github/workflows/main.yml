@@ -7,16 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     - name: Grant execute permission to postBuild
       run: chmod +x binder/postBuild
-      shell: bash
 
     - name: Commit and push if changed
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
-        git add -A
-        git diff --staged --quiet || git commit -m 'Set executable permissions on postBuild'
+        git add binder/postBuild
+        git commit -m 'Set executable permissions on postBuild' || echo "No changes to commit"
         git push
